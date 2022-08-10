@@ -1,9 +1,9 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
 
 import ImportFit from "../components/ImportFit";
+import DisplayRides from "../components/DisplayRides";
 
 const Home: NextPage = () => {
   return (
@@ -14,9 +14,11 @@ const Home: NextPage = () => {
       <div className='flex place-content-end m-5'>
         <ImportFit />
       </div>
-      <div className='flex m-5'>Placeholder for a list of rides</div>
+      <div className='flex m-5'>
+        <DisplayRides />
+      </div>
     </div>
   );
-}
+};
 
-export default Home
+export default Home;

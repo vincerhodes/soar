@@ -4,7 +4,7 @@ import create from "zustand";
 
 export const useAuthStore = create((set) => ({
   isSignedIn: null,
-  userId: 1000,
+  userId: null,
   signIn: (newUserId) => set({ isSignedIn: true, userId: newUserId }),
   signOut: () => set({ isSignedIn: false, userId: 0 }),
 }));

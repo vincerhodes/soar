@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
+import { useAuthStore } from "../hooks/useAuthStore";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-import { useRideStore } from "../hooks/useRideStore";
+import { useCreateRide } from "../apis/rideApis";
 import { ReadFile, ReadFit } from "./ReadFit";
 
-function ImportFit() {
-  // read multiple fit files
+const queryClient = new QueryClient();
 
-  // useRideStore((state) => state.addRides(rides));
-  const Input = () => (
+const ImportInput = () => {
+  const userId = useAuthStore((state) => state.userId);
+  const createRide = useCreateRide();
+
+  return (
     <div className='form-control'>
       <label className='input-group'>
         <input
@@ -17,10 +21,17 @@ function ImportFit() {
             let files = [...e.target.files] || [];
             files.forEach((item, index) => {
               ReadFile(files[index], (e) => {
-                const ride = ReadFit(e.target.result);
-                const id = ride.activity.timestamp.toString();
-                console.log(id, ride);
+                const fitData = ReadFit(e.target.result);
+                const ride = {
+                  ride: {
+                    authorGoogleId: userId,
+                    ridedate: fitData.activity.timestamp,
+                    ridedata: fitData,
+                  },
+                };
+                // console.log(ride);
                 // add code to upload ride to prisma here
+                createRide.mutate(ride);
               });
             });
           }}
@@ -30,11 +41,15 @@ function ImportFit() {
       </label>
     </div>
   );
+};
+
+function ImportFit() {
+  // read multiple fit files
 
   return (
-    <div>
-      <Input />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <ImportInput />
+    </QueryClientProvider>
   );
 }
 
