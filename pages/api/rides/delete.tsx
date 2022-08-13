@@ -5,9 +5,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   const prisma = new PrismaClient({ log: ["query"] });
 
   try {
-    const ride = req.body.ride;
-    console.log(ride);
-    const deletedRide = await prisma.ride.delete({
+    await prisma.record.deleteMany({
+      where: {
+        rideId: req.body.ride.id,
+      },
+    });
+    await prisma.ride.delete({
       where: {
         id: req.body.ride.id,
       },

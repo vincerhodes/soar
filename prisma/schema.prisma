@@ -14,5 +14,26 @@ model Ride {
   id             Int      @id @default(autoincrement())
   authorGoogleId String
   ridedate       DateTime
-  ridedata       Json
+  event          String
+  type           String
+  Record         Record[]
+
+  @@map("rides")
+}
+
+model Record {
+  id            Int      @id @default(autoincrement())
+  ride          Ride     @relation(fields: [rideId], references: [id])
+  rideId        Int
+  power         Float    @default(0)
+  speed         Float    @default(0)
+  cadence       Int      @default(0)
+  distance      Float    @default(0)
+  timestamp     DateTime
+  heart_rate    Int      @default(0)
+  elapsed_time  Float    @default(0)
+  position_lat  Float    @default(0)
+  position_long Float    @default(0)
+
+  @@map("records")
 }

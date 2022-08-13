@@ -26,7 +26,6 @@ const Rides = () => {
   return (
     <div className='flex flex-col w-full'>
       {rides.map((ride: any) => {
-        // console.log(ride);
         const ridedate: String = new Date(ride.ridedate).toDateString();
         var description: String;
         try {

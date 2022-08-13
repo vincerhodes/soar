@@ -2,7 +2,7 @@ import React from "react";
 import { useAuthStore } from "../hooks/useAuthStore";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-import { useCreateRide } from "../apis/rideApis";
+import { useCreateRide, getRecordData } from "../apis/rideApis";
 import { ReadFile, ReadFit } from "./ReadFit";
 
 const queryClient = new QueryClient();
@@ -25,12 +25,11 @@ const ImportInput = () => {
                 const ride = {
                   ride: {
                     authorGoogleId: userId,
-                    ridedate: fitData.activity.timestamp,
-                    ridedata: fitData,
+                    activity: fitData.activity,
+                    records: getRecordData(fitData.records),
                   },
                 };
-                // console.log(ride);
-                // add code to upload ride to prisma here
+                // upload ride to prisma here
                 createRide.mutate(ride);
               });
             });
